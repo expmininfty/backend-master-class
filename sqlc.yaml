@@ -1,0 +1,14 @@
+version: "2"
+sql:
+  - schema: "internal/database/migration"
+    queries: "internal/database/query/"
+    engine: "postgresql"
+    gen:
+      go:
+        package: "dbsqlc"
+        sql_package: "pgx/v5"
+        out: "internal/database/dbsqlc"
+        emit_json_tags: true
+
+    database:
+      uri: "postgresql://root:secret@localhost:54320/simple_bank?sslmode=disable"

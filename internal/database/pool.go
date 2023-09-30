@@ -11,7 +11,7 @@ type DB struct {
 	*pgxpool.Pool
 }
 
-func New(dsn string) (*DB, error) {
+func NewPool(dsn string) (*DB, error) {
 
 	connConf, err := pgxpool.ParseConfig(dsn)
 	if err != nil {
