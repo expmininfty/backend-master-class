@@ -10,6 +10,20 @@ jobs:
   test:
     name: Build and test
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: simplebank
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
 
@@ -19,5 +33,10 @@ jobs:
           go-version: "1.21"
         id: go
 
+      - name: DB migration
+        timeout-minutes: 1
+        run: make migrateup
+
       - name: Test
+        timeout-minutes: 1
         run: make test
